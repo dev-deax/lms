@@ -1,8 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.proyect.lms.view;
+
+import com.proyect.lms.controller.CarreraController;
+import com.proyect.lms.database.ConexionDB;
+import com.proyect.lms.model.CarreraModel;
+import java.awt.CardLayout;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,8 +19,33 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    private ConexionDB conexionDB;
+    private Connection connection;
+
+    private CarreraView carreraView;
+    private CarreraController carreraController;
+    private CarreraModel carreraModel;
+
+    private EstudianteView estudianteView;
+    private LibroView libroView;
+    private PrestamoView prestamoView;
+
     public Menu() {
         initComponents();
+        this.conexionDB = new ConexionDB();
+        try {
+            this.connection = conexionDB.obtenerConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.carreraView = new CarreraView();
+        this.carreraModel = new CarreraModel();
+        this.carreraController = new CarreraController(connection, carreraModel);
+
+        this.estudianteView = new EstudianteView();
+        this.libroView = new LibroView();
+        this.prestamoView = new PrestamoView();
+
     }
 
     /**
@@ -26,24 +57,50 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        contenedorPrincipal = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         carreraJMenu = new javax.swing.JMenu();
         estudianteJMenu = new javax.swing.JMenu();
         libroJMenu = new javax.swing.JMenu();
         prestamoJMenu = new javax.swing.JMenu();
 
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        contenedorPrincipal.setLayout(new java.awt.CardLayout());
+
         carreraJMenu.setText("Carrera");
+        carreraJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                carreraJMenuMousePressed(evt);
+            }
+        });
         jMenuBar1.add(carreraJMenu);
 
         estudianteJMenu.setText("Estudiante");
+        estudianteJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                estudianteJMenuMousePressed(evt);
+            }
+        });
         jMenuBar1.add(estudianteJMenu);
 
         libroJMenu.setText("Libro");
+        libroJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                libroJMenuMousePressed(evt);
+            }
+        });
         jMenuBar1.add(libroJMenu);
 
         prestamoJMenu.setText("Prestamo");
+        prestamoJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                prestamoJMenuMousePressed(evt);
+            }
+        });
         jMenuBar1.add(prestamoJMenu);
 
         setJMenuBar(jMenuBar1);
@@ -52,15 +109,41 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addComponent(contenedorPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addComponent(contenedorPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void carreraJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carreraJMenuMousePressed
+        this.carreraView.setController(carreraController);
+        this.carreraView.initView();
+        mostrarPanel(this.carreraView);
+    }//GEN-LAST:event_carreraJMenuMousePressed
+
+    private void estudianteJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_estudianteJMenuMousePressed
+        mostrarPanel(this.estudianteView);
+    }//GEN-LAST:event_estudianteJMenuMousePressed
+
+    private void libroJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libroJMenuMousePressed
+        mostrarPanel(this.libroView);
+    }//GEN-LAST:event_libroJMenuMousePressed
+
+    private void prestamoJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prestamoJMenuMousePressed
+        mostrarPanel(this.prestamoView);
+    }//GEN-LAST:event_prestamoJMenuMousePressed
+
+    private void mostrarPanel(JPanel panel) {
+        contenedorPrincipal.removeAll();
+        contenedorPrincipal.add(panel);
+        ((CardLayout) contenedorPrincipal.getLayout()).show(contenedorPrincipal, panel.getClass().getName());
+        revalidate();
+        repaint();
+    }
 
     /**
      * @param args the command line arguments
@@ -99,8 +182,10 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu carreraJMenu;
+    private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JMenu estudianteJMenu;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu libroJMenu;
     private javax.swing.JMenu prestamoJMenu;
     // End of variables declaration//GEN-END:variables
