@@ -15,7 +15,7 @@ public class CarreraModel {
         this.codigo = codigo;
         this.nombre = nombre;
     }
-          
+            
     public int getCodigo() {
         return codigo;
     }

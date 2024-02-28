@@ -15,7 +15,7 @@ public class ConexionDB {
 
     private Connection connection;
 
-    private ConexionDB() {
+    public ConexionDB() {
     }
     
     public Connection obtenerConexion() throws SQLException {

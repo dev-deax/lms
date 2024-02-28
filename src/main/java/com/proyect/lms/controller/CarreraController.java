@@ -1,31 +1,35 @@
-
 package com.proyect.lms.controller;
 
 /**
  *
  * @author dany
  */
-
+import com.proyect.lms.database.ConexionDB;
 import com.proyect.lms.model.CarreraModel;
+import com.proyect.lms.view.CarreraView;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CarreraController {
-    private Connection connection;
 
-    public CarreraController(Connection connection) {
+    public Connection connection;
+    public CarreraModel carreraModel;
+
+    public CarreraController(Connection connection, CarreraModel carreraModel) {
         this.connection = connection;
+        this.carreraModel = carreraModel;
     }
 
     public List<CarreraModel> obtenerTodasCarreras() {
+        System.out.println("obtenerTodasCarreras");
         List<CarreraModel> carreras = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM carreras");
-             ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM carreras"); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                CarreraModel carrera = new CarreraModel(resultSet.getInt("codigo"), resultSet.getString("nombre"));
-                carreras.add(carrera);
+                carreras.add(new CarreraModel(resultSet.getInt("codigo"), resultSet.getString("nombre")));
             }
 
         } catch (SQLException e) {
@@ -34,32 +38,47 @@ public class CarreraController {
         return carreras;
     }
 
-    public void agregarCarrera(CarreraModel carrera) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO carreras (codigo, nombre) VALUES (?, ?)")) {
-            statement.setInt(1, carrera.getCodigo());
-            statement.setString(2, carrera.getNombre());
+    public String agregarCarrera(String nombreField) {
+        this.carreraModel.setNombre(nombreField);
+        try (PreparedStatement statement = this.connection.prepareStatement("INSERT INTO carreras (nombre) VALUES (?)")) {
+            statement.setString(1, this.carreraModel.getNombre());
             statement.executeUpdate();
+            return "Carrera creada correctamente";
         } catch (SQLException e) {
             e.printStackTrace();
+            return e.getMessage();
         }
     }
 
-    public void actualizarCarrera(CarreraModel carrera) {
+    public String actualizarCarrera(String codigoField, String nombreField) {
         try (PreparedStatement statement = connection.prepareStatement("UPDATE carreras SET nombre = ? WHERE codigo = ?")) {
-            statement.setString(1, carrera.getNombre());
-            statement.setInt(2, carrera.getCodigo());
+            int codigo = Integer.parseInt(codigoField);
+            this.carreraModel.setCodigo(codigo);
+            this.carreraModel.setNombre(nombreField);
+            statement.setString(1, this.carreraModel.getNombre());
+            statement.setInt(2, this.carreraModel.getCodigo());
             statement.executeUpdate();
+            return "Carrera actualizada correctamente";
         } catch (SQLException e) {
             e.printStackTrace();
+            return e.getMessage();
+        } catch (NumberFormatException e) {
+            return e.getMessage();
         }
     }
 
-    public void eliminarCarrera(int codigo) {
+    public String eliminarCarrera(String codigoField) {
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM carreras WHERE codigo = ?")) {
-            statement.setInt(1, codigo);
+            int codigo = Integer.parseInt(codigoField);
+            this.carreraModel.setCodigo(codigo);
+            statement.setInt(1, this.carreraModel.getCodigo());
             statement.executeUpdate();
+            return "Carrera eliminada correctamente";
         } catch (SQLException e) {
             e.printStackTrace();
+            return e.getMessage();
+        } catch (NumberFormatException e) {
+            return e.getMessage();
         }
     }
 
