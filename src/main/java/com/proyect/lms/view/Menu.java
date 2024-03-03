@@ -1,8 +1,10 @@
 package com.proyect.lms.view;
 
 import com.proyect.lms.controller.CarreraController;
+import com.proyect.lms.controller.LibroController;
 import com.proyect.lms.database.ConexionDB;
 import com.proyect.lms.model.CarreraModel;
+import com.proyect.lms.model.LibroModel;
 import java.awt.CardLayout;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,6 +30,9 @@ public class Menu extends javax.swing.JFrame {
 
     private EstudianteView estudianteView;
     private LibroView libroView;
+    private LibroController libroController;
+    private LibroModel libroModel;
+
     private PrestamoView prestamoView;
 
     public Menu() {
@@ -44,6 +49,10 @@ public class Menu extends javax.swing.JFrame {
 
         this.estudianteView = new EstudianteView();
         this.libroView = new LibroView();
+        this.libroModel = new LibroModel();
+        this.libroController = new LibroController(connection, libroModel);
+
+
         this.prestamoView = new PrestamoView();
 
     }
@@ -130,6 +139,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_estudianteJMenuMousePressed
 
     private void libroJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libroJMenuMousePressed
+        this.libroView.setController(libroController);
+        this.libroView.initView();
+
         mostrarPanel(this.libroView);
     }//GEN-LAST:event_libroJMenuMousePressed
 
