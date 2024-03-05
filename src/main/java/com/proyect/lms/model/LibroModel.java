@@ -1,6 +1,7 @@
 package com.proyect.lms.model;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 /**
  *

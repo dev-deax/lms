@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ConexionDB {
     private static final String URL = "jdbc:mysql://localhost:3306/lms";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "root";
+    private static final String CONTRASENA = "123456789";
 
     private Connection connection;
 
