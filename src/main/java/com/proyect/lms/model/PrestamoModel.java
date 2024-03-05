@@ -8,13 +8,13 @@ import java.util.Date;
 
 public class PrestamoModel {
     private String libroCodigo;
-    private int estudianteCarnet;
+    private String estudianteCarnet;
     private Date fechaPrestamo;
 
     public PrestamoModel() {
     }
 
-    public PrestamoModel(String libroCodigo, int estudianteCarnet, Date fechaPrestamo) {
+    public PrestamoModel(String libroCodigo, String estudianteCarnet, Date fechaPrestamo) {
         this.libroCodigo = libroCodigo;
         this.estudianteCarnet = estudianteCarnet;
         this.fechaPrestamo = fechaPrestamo;
@@ -28,11 +28,11 @@ public class PrestamoModel {
         this.libroCodigo = libroCodigo;
     }
 
-    public int getEstudianteCarnet() {
+    public String getEstudianteCarnet() {
         return estudianteCarnet;
     }
 
-    public void setEstudianteCarnet(int estudianteCarnet) {
+    public void setEstudianteCarnet(String estudianteCarnet) {
         this.estudianteCarnet = estudianteCarnet;
     }
 

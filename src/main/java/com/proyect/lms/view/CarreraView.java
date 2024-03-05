@@ -207,6 +207,7 @@ public class CarreraView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        System.out.println("evt.getClickCount()"+evt.getClickCount());
         if (evt.getClickCount() == 1) {
             mostrarDatosEnCampos();
             this.crearCarreraBtn.setEnabled(false);
@@ -233,6 +234,7 @@ public class CarreraView extends javax.swing.JPanel {
                 this.codigoCarreraField.setText(codigo + "");
             }
         } catch (Exception e) {
+            System.out.println("error mostrar camop");
             resetFields();
         }
 

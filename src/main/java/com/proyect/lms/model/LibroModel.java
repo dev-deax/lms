@@ -1,4 +1,4 @@
- package com.proyect.lms.model;
+package com.proyect.lms.model;
 
 import java.util.Date;
 
@@ -7,6 +7,7 @@ import java.util.Date;
  * @author dany
  */
 public class LibroModel {
+
     private String codigo;
     private String autor;
     private String titulo;
@@ -15,6 +16,13 @@ public class LibroModel {
     private Date fechaPublicacion;
 
     public LibroModel() {
+    }
+
+    public LibroModel(String titulo, String autor, String codigo, int cantidadCopias) {
+        this.codigo = codigo;
+        this.autor = autor;
+        this.titulo = titulo;
+        this.cantidadCopias = cantidadCopias;
     }
 
     public LibroModel(String codigo, String autor, String titulo, String editorial, int cantidadCopias, Date fechaPublicacion) {
@@ -26,8 +34,6 @@ public class LibroModel {
         this.fechaPublicacion = fechaPublicacion;
     }
 
-    
-    
     public String getCodigo() {
         return codigo;
     }
@@ -75,5 +81,5 @@ public class LibroModel {
     public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
- 
+
 }

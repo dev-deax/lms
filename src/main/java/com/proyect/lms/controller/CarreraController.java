@@ -29,7 +29,10 @@ public class CarreraController {
         try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM carreras"); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                carreras.add(new CarreraModel(resultSet.getInt("codigo"), resultSet.getString("nombre")));
+                int codigo = resultSet.getInt("codigo");
+                String nombre = resultSet.getString("nombre");
+                CarreraModel carrera = new CarreraModel(codigo, nombre);
+                carreras.add(carrera);
             }
 
         } catch (SQLException e) {

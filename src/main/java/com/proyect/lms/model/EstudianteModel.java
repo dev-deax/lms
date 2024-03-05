@@ -7,7 +7,7 @@ package com.proyect.lms.model;
 import java.util.Date;
 
 public class EstudianteModel {
-    private int carnet;
+    private String carnet;
     private String nombre;
     private int carrera;
     private Date fechaNacimiento;
@@ -15,18 +15,24 @@ public class EstudianteModel {
     public EstudianteModel() {
     }
 
-    public EstudianteModel(int carnet, String nombre, int carrera, Date fechaNacimiento) {
+    public EstudianteModel(String carnet, String nombre, int carrera) {
+        this.carnet = carnet;
+        this.nombre = nombre;
+        this.carrera = carrera;
+    }
+
+    public EstudianteModel(String carnet, String nombre, int carrera, Date fechaNacimiento) {
         this.carnet = carnet;
         this.nombre = nombre;
         this.carrera = carrera;
         this.fechaNacimiento = fechaNacimiento;
     }
   
-    public int getCarnet() {
+    public String getCarnet() {
         return carnet;
     }
 
-    public void setCarnet(int carnet) {
+    public void setCarnet(String carnet) {
         this.carnet = carnet;
     }
 
