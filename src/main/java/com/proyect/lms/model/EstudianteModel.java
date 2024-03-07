@@ -11,6 +11,8 @@ public class EstudianteModel {
     private String nombre;
     private int carrera;
     private Date fechaNacimiento;
+    
+    private CarreraModel carreraModel;
 
     public EstudianteModel() {
     }
@@ -27,6 +29,24 @@ public class EstudianteModel {
         this.carrera = carrera;
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    public EstudianteModel(String carnet, String nombre, int carrera, Date fechaNacimiento, CarreraModel carreraModel) {
+        this.carnet = carnet;
+        this.nombre = nombre;
+        this.carrera = carrera;
+        this.fechaNacimiento = fechaNacimiento;
+        this.carreraModel = carreraModel;
+    }
+
+    public CarreraModel getCarreraModel() {
+        return carreraModel;
+    }
+
+    public void setCarreraModel(CarreraModel carreraModel) {
+        this.carreraModel = carreraModel;
+    }
+    
+    
   
     public String getCarnet() {
         return carnet;

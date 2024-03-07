@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 public class CarreraController {
 
-    public Connection connection;
-    public CarreraModel carreraModel;
+    private Connection connection;
+    private CarreraModel carreraModel;
 
     public CarreraController(Connection connection, CarreraModel carreraModel) {
         this.connection = connection;

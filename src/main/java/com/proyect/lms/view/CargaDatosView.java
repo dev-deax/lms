@@ -4,6 +4,14 @@
  */
 package com.proyect.lms.view;
 
+import com.proyect.lms.controller.CargaDatosController;
+import com.proyect.lms.controller.LibroController;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author dany
@@ -13,8 +21,20 @@ public class CargaDatosView extends javax.swing.JPanel {
     /**
      * Creates new form CargaDatosView
      */
+    private CargaDatosController cargaDatosController;
+
     public CargaDatosView() {
+
+    }
+ private JFileChooser fileChooser;
+
+    void initView() {
+        // Crear un JFileChooser
+        this.fileChooser = new JFileChooser();
         initComponents();
+    }
+    public void setController(CargaDatosController cargaDatosController) {
+        this.cargaDatosController = cargaDatosController;
     }
 
     /**
@@ -26,38 +46,69 @@ public class CargaDatosView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jFileChooser1 = new javax.swing.JFileChooser();
+        loadTxtBtn = new javax.swing.JButton();
 
-        jButton1.setText("jButton1");
+        loadTxtBtn.setText("Cargar datos desde un archivo de texto");
+        loadTxtBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadTxtBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(loadTxtBtn)
+                .addContainerGap(470, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(43, 43, 43)
+                .addComponent(loadTxtBtn)
+                .addContainerGap(271, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadTxtBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTxtBtnActionPerformed
+
+        // Filtrar archivos para que solo muestre archivos de texto (.txt)
+        this.fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(java.io.File f) {
+                return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Archivos de Texto (*.txt)";
+            }
+        });
+
+        // Mostrar el cuadro de diálogo para seleccionar un archivo
+        int result = this.fileChooser.showOpenDialog(CargaDatosView.this);
+
+        // Verificar si se seleccionó un archivo
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // Obtener el archivo seleccionado
+            File selectedFile = this.fileChooser.getSelectedFile();
+            // Realizar acciones con el archivo seleccionado (en este ejemplo, solo imprimir la ruta)
+            System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
+            try {
+                this.cargaDatosController.cargarArchivos(selectedFile);
+            } catch (IOException ex) {
+                Logger.getLogger(CargaDatosView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_loadTxtBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JButton loadTxtBtn;
     // End of variables declaration//GEN-END:variables
+
+   
 }

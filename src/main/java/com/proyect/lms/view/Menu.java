@@ -1,10 +1,14 @@
 package com.proyect.lms.view;
 
+import com.proyect.lms.controller.CargaDatosController;
 import com.proyect.lms.controller.CarreraController;
 import com.proyect.lms.controller.LibroController;
+import com.proyect.lms.controller.ReportesController;
 import com.proyect.lms.database.ConexionDB;
 import com.proyect.lms.model.CarreraModel;
+import com.proyect.lms.model.EstudianteModel;
 import com.proyect.lms.model.LibroModel;
+import com.proyect.lms.model.PrestamoModel;
 import java.awt.CardLayout;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,11 +33,20 @@ public class Menu extends javax.swing.JFrame {
     private CarreraModel carreraModel;
 
     private EstudianteView estudianteView;
+    private EstudianteModel estudianteModel;
+    
     private LibroView libroView;
     private LibroController libroController;
     private LibroModel libroModel;
 
     private PrestamoView prestamoView;
+    private PrestamoModel prestamoModel;
+
+    private CargaDatosView cargaDatosView;
+    private CargaDatosController cargaDatosController;
+    
+    private ReportesView reportesView;
+    private ReportesController reportesController;
 
     public Menu() {
         initComponents();
@@ -48,13 +61,20 @@ public class Menu extends javax.swing.JFrame {
         this.carreraController = new CarreraController(connection, carreraModel);
 
         this.estudianteView = new EstudianteView();
+        this.estudianteModel=new EstudianteModel();
+        
         this.libroView = new LibroView();
         this.libroModel = new LibroModel();
         this.libroController = new LibroController(connection, libroModel);
 
-
         this.prestamoView = new PrestamoView();
+        this.prestamoModel = new PrestamoModel();
+        
+        this.cargaDatosView = new CargaDatosView();
+        this.cargaDatosController= new CargaDatosController(connection, libroModel, estudianteModel, prestamoModel);
 
+        this.reportesView = new ReportesView();
+        this.reportesController= new ReportesController(connection, libroModel, estudianteModel, prestamoModel);
     }
 
     /**
@@ -73,6 +93,8 @@ public class Menu extends javax.swing.JFrame {
         estudianteJMenu = new javax.swing.JMenu();
         libroJMenu = new javax.swing.JMenu();
         prestamoJMenu = new javax.swing.JMenu();
+        cargaDatosJMenu = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -112,6 +134,22 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenuBar1.add(prestamoJMenu);
 
+        cargaDatosJMenu.setText("Cargar datos");
+        cargaDatosJMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cargaDatosJMenuMousePressed(evt);
+            }
+        });
+        jMenuBar1.add(cargaDatosJMenu);
+
+        jMenu1.setText("Reportes");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenu1MousePressed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,6 +186,20 @@ public class Menu extends javax.swing.JFrame {
     private void prestamoJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prestamoJMenuMousePressed
         mostrarPanel(this.prestamoView);
     }//GEN-LAST:event_prestamoJMenuMousePressed
+
+    private void cargaDatosJMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargaDatosJMenuMousePressed
+        this.cargaDatosView.setController(this.cargaDatosController);
+        this.cargaDatosView.initView();
+
+        mostrarPanel(this.cargaDatosView);
+    }//GEN-LAST:event_cargaDatosJMenuMousePressed
+
+    private void jMenu1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MousePressed
+        this.reportesView.setController(this.reportesController);
+        this.reportesView.initView();
+
+        mostrarPanel(this.reportesView);
+    }//GEN-LAST:event_jMenu1MousePressed
 
     private void mostrarPanel(JPanel panel) {
         contenedorPrincipal.removeAll();
@@ -193,9 +245,11 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu cargaDatosJMenu;
     private javax.swing.JMenu carreraJMenu;
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JMenu estudianteJMenu;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu libroJMenu;

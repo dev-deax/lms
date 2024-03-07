@@ -83,4 +83,15 @@ public class LibroModel {
         this.fechaPublicacion = fechaPublicacion;
     }
 
+    @Override
+       public String toString() {
+        return "LibroModel{" +
+                "titulo='" + titulo + '\'' +
+                ", autor='" + autor + '\'' +
+                ", codigo='" + codigo + '\'' +
+                ", cantidad=" + cantidadCopias +
+                '}';
+    }
+
+    
 }

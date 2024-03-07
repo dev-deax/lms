@@ -1,15 +1,19 @@
 package com.proyect.lms.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author dany
  */
-import java.util.Date;
+ 
 
 public class PrestamoModel {
     private String libroCodigo;
     private String estudianteCarnet;
     private Date fechaPrestamo;
+    private LibroModel libro;
+    private EstudianteModel estudiante;
 
     public PrestamoModel() {
     }
@@ -20,6 +24,30 @@ public class PrestamoModel {
         this.fechaPrestamo = fechaPrestamo;
     }
 
+    public PrestamoModel(String libroCodigo, String estudianteCarnet, Date fechaPrestamo, LibroModel libro, EstudianteModel estudiante) {
+        this.libroCodigo = libroCodigo;
+        this.estudianteCarnet = estudianteCarnet;
+        this.fechaPrestamo = fechaPrestamo;
+        this.libro = libro;
+        this.estudiante = estudiante;
+    }
+
+    public LibroModel getLibro() {
+        return libro;
+    }
+
+    public void setLibro(LibroModel libro) {
+        this.libro = libro;
+    }
+
+    public EstudianteModel getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(EstudianteModel estudiante) {
+        this.estudiante = estudiante;
+    }
+    
     public String getLibroCodigo() {
         return libroCodigo;
     }
