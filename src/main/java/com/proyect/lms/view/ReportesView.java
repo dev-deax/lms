@@ -7,8 +7,12 @@ package com.proyect.lms.view;
 import com.proyect.lms.controller.CarreraController;
 import com.proyect.lms.controller.ReportesController;
 import com.proyect.lms.model.CarreraModel;
+import com.proyect.lms.model.EstudianteModel;
+import com.proyect.lms.model.LibroModel;
 import com.proyect.lms.model.PrestamoModel;
+import java.sql.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,20 +39,19 @@ public class ReportesView extends javax.swing.JPanel {
     public void initView() {
         initComponents();
         this.modeloTabla = new DefaultTableModel(new Object[0][14], new String[]{
-            "fecha_prestamo", 
-            "codigo", 
-            "autor", 
+            "codigo",
+            "autor",
             "titulo",
-            "editorial", 
-            "cantidad_copias", 
-            "fecha_publicacion", 
-            "carnet", 
-            "nombre", 
+            "editorial",
+            "cantidad_copias",
+            "fecha_publicacion",
+            "carnet",
+            "nombre",
             "carrera",
-            "fecha_nacimiento"
-        });
-        this.jTable2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        this.jTable2.getTableHeader().setReorderingAllowed(false);
+            "fecha_nacimiento",
+            "fecha_prestamo",
+            "fecha_devolucion",});
+        loadPrefTable(jTable2);
         loadDataJTableR1();
 
     }
@@ -58,18 +61,18 @@ public class ReportesView extends javax.swing.JPanel {
         this.modeloTabla.setRowCount(0);
         for (PrestamoModel prestamo : prestamos) {
             this.modeloTabla.addRow(new Object[]{
-                prestamo.getFechaPrestamo(),
                 prestamo.getLibro().getCodigo(),
                 prestamo.getLibro().getAutor(),
                 prestamo.getLibro().getTitulo(),
                 prestamo.getLibro().getEditorial(),
                 prestamo.getLibro().getCantidadCopias(),
                 prestamo.getLibro().getFechaPublicacion(),
-                prestamo.getEstudiante().getCarnet(), 
+                prestamo.getEstudiante().getCarnet(),
                 prestamo.getEstudiante().getNombre(),
-                prestamo.getEstudiante().getCarreraModel().getNombre(), 
-                prestamo.getEstudiante().getFechaNacimiento()
-            });
+                prestamo.getEstudiante().getCarreraModel().getNombre(),
+                prestamo.getEstudiante().getFechaNacimiento(),
+                prestamo.getFechaPrestamo(),
+                prestamo.getFechaDevolucion(),});
         }
         this.jTable2.setModel(this.modeloTabla);
     }
@@ -91,27 +94,38 @@ public class ReportesView extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        findPrestamosEstudianteBtn = new javax.swing.JButton();
+        carnetEstudianteField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        getPrestamosEnMoraBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
+        dateIniR4 = new com.toedter.calendar.JDateChooser();
+        dateFinR4 = new com.toedter.calendar.JDateChooser();
+        obtenerReportePrestamosPorCarreraBtn = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(jTable2);
 
         loadR1Btn.setText("Actualizar r1");
+        loadR1Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadR1BtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,7 +141,7 @@ public class ReportesView extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 24, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(loadR1Btn)
@@ -138,96 +152,140 @@ public class ReportesView extends javax.swing.JPanel {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane3.setViewportView(jTable3);
+
+        findPrestamosEstudianteBtn.setText("Buscar");
+        findPrestamosEstudianteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findPrestamosEstudianteBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(163, 163, 163))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(carnetEstudianteField)
+                    .addComponent(findPrestamosEstudianteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 24, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(carnetEstudianteField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(findPrestamosEstudianteBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("reporte 2", jPanel2);
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane4.setViewportView(jTable4);
+
+        getPrestamosEnMoraBtn.setText("Buscar");
+        getPrestamosEnMoraBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getPrestamosEnMoraBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(163, 163, 163))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(getPrestamosEnMoraBtn)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 24, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(getPrestamosEnMoraBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("reporte 3", jPanel3);
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane5.setViewportView(jTable5);
+
+        obtenerReportePrestamosPorCarreraBtn.setText("buscar");
+        obtenerReportePrestamosPorCarreraBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                obtenerReportePrestamosPorCarreraBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(163, 163, 163))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dateIniR4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateFinR4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(obtenerReportePrestamosPorCarreraBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 24, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dateIniR4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dateFinR4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(obtenerReportePrestamosPorCarreraBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("reporte 4", jPanel4);
@@ -236,16 +294,163 @@ public class ReportesView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadPrefTable(JTable jTable) {
+        jTable.getTableHeader().setReorderingAllowed(false);
+        jTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTable.setPreferredScrollableViewportSize(jTable.getPreferredSize());
+    }
+
+
+    private void findPrestamosEstudianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPrestamosEstudianteBtnActionPerformed
+        String[] columnas = new String[]{
+            "carnet",
+            "nombre",
+            "carrera",
+            "fecha_nacimiento",
+            "codigo",
+            "autor",
+            "titulo",
+            "editorial",
+            "cantidad_copias",
+            "fecha_publicacion",
+            "fecha_prestamo",
+            "fecha_devolucion",};
+        this.modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas);
+        loadPrefTable(jTable3);
+        List<PrestamoModel> prestamos = this.controller.getPrestamosPorEstudiante(this.carnetEstudianteField.getText());
+        this.modeloTabla.setRowCount(0);
+
+        prestamos.forEach(prestamo -> {
+            Object[] rowData = {
+                prestamo.getEstudiante().getCarnet(),
+                prestamo.getEstudiante().getNombre(),
+                prestamo.getEstudiante().getCarreraModel().getNombre(),
+                prestamo.getEstudiante().getFechaNacimiento(),
+                prestamo.getLibro().getCodigo(),
+                prestamo.getLibro().getAutor(),
+                prestamo.getLibro().getTitulo(),
+                prestamo.getLibro().getEditorial(),
+                prestamo.getLibro().getCantidadCopias(),
+                prestamo.getLibro().getFechaPublicacion(),
+                prestamo.getFechaPrestamo(),
+                prestamo.getFechaDevolucion(),};
+            modeloTabla.addRow(rowData);
+        });
+
+        this.jTable3.setModel(this.modeloTabla);
+    }//GEN-LAST:event_findPrestamosEstudianteBtnActionPerformed
+
+    private void loadR1BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadR1BtnActionPerformed
+        loadDataJTableR1();
+    }//GEN-LAST:event_loadR1BtnActionPerformed
+
+    private void getPrestamosEnMoraBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPrestamosEnMoraBtnActionPerformed
+        String[] columnas = new String[]{
+            "carnet",
+            "nombre",
+            "carrera",
+            "fecha_nacimiento",
+            "codigo",
+            "autor",
+            "titulo",
+            "editorial",
+            "cantidad_copias",
+            "fecha_publicacion",
+            "fecha_prestamo",
+            "fecha_devolucion",
+            "dias_mora",
+        };
+        this.modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas);
+        loadPrefTable(jTable4);
+        List<PrestamoModel> prestamos = this.controller.getPrestamosEnMora();
+        this.modeloTabla.setRowCount(0);
+
+        prestamos.forEach(prestamo -> {
+            Object[] rowData = {
+                prestamo.getEstudiante().getCarnet(),
+                prestamo.getEstudiante().getNombre(),
+                prestamo.getEstudiante().getCarreraModel().getNombre(),
+                prestamo.getEstudiante().getFechaNacimiento(),
+                prestamo.getLibro().getCodigo(),
+                prestamo.getLibro().getAutor(),
+                prestamo.getLibro().getTitulo(),
+                prestamo.getLibro().getEditorial(),
+                prestamo.getLibro().getCantidadCopias(),
+                prestamo.getLibro().getFechaPublicacion(),
+                prestamo.getFechaPrestamo(),
+                prestamo.getFechaDevolucion(),
+                prestamo.getDiasMora(),
+            };
+            modeloTabla.addRow(rowData);
+        });
+
+        this.jTable4.setModel(this.modeloTabla);
+    }//GEN-LAST:event_getPrestamosEnMoraBtnActionPerformed
+
+    private void obtenerReportePrestamosPorCarreraBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obtenerReportePrestamosPorCarreraBtnActionPerformed
+      
+        System.out.println("this.dateIniR4.getDate()"+this.dateIniR4.getDate());
+        System.out.println("this.dateFinR4.getDate()"+this.dateFinR4.getDate());
+        if (this.dateIniR4.getDate() == null||this.dateFinR4.getDate() == null) {
+             JOptionPane.showMessageDialog(this, "Debe seleccionar las dos fechas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+         String[] columnas = new String[]{
+            "carnet",
+            "nombre",
+            "carrera",
+            "fecha_nacimiento",
+            "codigo",
+            "autor",
+            "titulo",
+            "editorial",
+            "cantidad_copias",
+            "fecha_publicacion",
+            "fecha_prestamo",
+        };
+        this.modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas);
+        loadPrefTable(jTable5);
+        List<PrestamoModel> prestamos = this.controller.obtenerReportePrestamosPorCarrera(
+                new Date(this.dateIniR4.getDate().getTime()), 
+                new Date(this.dateFinR4.getDate().getTime())
+        );
+        this.modeloTabla.setRowCount(0);
+
+        prestamos.forEach(prestamo -> {
+            Object[] rowData = {
+                prestamo.getEstudiante().getCarnet(),
+                prestamo.getEstudiante().getNombre(),
+                prestamo.getEstudiante().getCarreraModel().getNombre(),
+                prestamo.getEstudiante().getFechaNacimiento(),
+                prestamo.getLibro().getCodigo(),
+                prestamo.getLibro().getAutor(),
+                prestamo.getLibro().getTitulo(),
+                prestamo.getLibro().getEditorial(),
+                prestamo.getLibro().getCantidadCopias(),
+                prestamo.getLibro().getFechaPublicacion(),
+                prestamo.getFechaPrestamo(),
+            };
+            modeloTabla.addRow(rowData);
+        });
+
+        this.jTable5.setModel(this.modeloTabla);
+    }//GEN-LAST:event_obtenerReportePrestamosPorCarreraBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField carnetEstudianteField;
+    private com.toedter.calendar.JDateChooser dateFinR4;
+    private com.toedter.calendar.JDateChooser dateIniR4;
+    private javax.swing.JButton findPrestamosEstudianteBtn;
+    private javax.swing.JButton getPrestamosEnMoraBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -260,5 +465,6 @@ public class ReportesView extends javax.swing.JPanel {
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JButton loadR1Btn;
+    private javax.swing.JButton obtenerReportePrestamosPorCarreraBtn;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,8 +12,11 @@ public class PrestamoModel {
     private String libroCodigo;
     private String estudianteCarnet;
     private Date fechaPrestamo;
+     private Date fechaDevolucion;
     private LibroModel libro;
     private EstudianteModel estudiante;
+    private double mora;
+    private int diasMora;
 
     public PrestamoModel() {
     }
@@ -30,6 +33,31 @@ public class PrestamoModel {
         this.fechaPrestamo = fechaPrestamo;
         this.libro = libro;
         this.estudiante = estudiante;
+    }
+
+    public Date getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(Date fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
+
+    
+    public double getMora() {
+        return mora;
+    }
+
+    public void setMora(double mora) {
+        this.mora = mora;
+    }
+
+    public int getDiasMora() {
+        return diasMora;
+    }
+
+    public void setDiasMora(int diasMora) {
+        this.diasMora = diasMora;
     }
 
     public LibroModel getLibro() {
